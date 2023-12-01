@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById('drawingCanvas');
     var ctx = canvas.getContext('2d');
     var drawing = false;
-    var startX, startY;
-    var imageLoader = document.getElementById('imageLoader');
+    var rgbValues = []; // 用來儲存 RGB 值的陣列
 
+    var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
 
     function handleImage(e) {
@@ -21,24 +21,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startDrawing(e) {
         drawing = true;
-        [startX, startY] = [e.offsetX, e.offsetY];
         ctx.beginPath();
-        ctx.moveTo(startX, startY);
+        ctx.moveTo(e.offsetX, e.offsetY);
     }
 
     function drawLine(e) {
         if (!drawing) return;
         ctx.lineTo(e.offsetX, e.offsetY);
         ctx.stroke();
+        // 擷取目前滑鼠位置的像素的 RGB 值
+        var pixelData = ctx.getImageData(e.offsetX, e.offsetY, 1, 1).data;
+        rgbValues.push(`rgb(${pixelData[0]}, ${pixelData[1]}, ${pixelData[2]})`);
     }
 
     function stopDrawing(e) {
-        if (!drawing) return;
         drawing = false;
-        let deltaX = e.offsetX - startX;
-        let deltaY = e.offsetY - startY;
-        let pixelLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        console.log(`Line length: ${pixelLength} pixels`);
+        // 輸出所有紀錄的 RGB 值
+        console.log(rgbValues);
     }
 
     canvas.addEventListener('mousedown', startDrawing);
@@ -46,3 +45,4 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
 });
+
