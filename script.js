@@ -3,13 +3,21 @@ document.addEventListener('DOMContentLoaded', function () {
     var ctx = canvas.getContext('2d');
     var drawing = false;
     var startX, startY;
-    var backgroundImage = new Image();
+    var imageLoader = document.getElementById('imageLoader');
 
-    // 載入背景圖片
-    backgroundImage.src = 'ant.png';
-    backgroundImage.onload = function() {
-        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-    };
+    imageLoader.addEventListener('change', handleImage, false);
+
+    function handleImage(e) {
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var img = new Image();
+            img.onload = function(){
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(e.target.files[0]);     
+    }
 
     function startDrawing(e) {
         drawing = true;
@@ -30,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let deltaX = e.offsetX - startX;
         let deltaY = e.offsetY - startY;
         let pixelLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        alert(`Line length: ${pixelLength} pixels`);
+        console.log(`Line length: ${pixelLength} pixels`);
     }
 
     canvas.addEventListener('mousedown', startDrawing);
@@ -38,4 +46,3 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
 });
-
