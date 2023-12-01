@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var ctx = canvas.getContext('2d');
     var drawing = false;
     var startX, startY;
+    var backgroundImage = new Image();
+
+    // 載入背景圖片
+    backgroundImage.src = 'ant.png';
+    backgroundImage.onload = function() {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+    };
 
     function startDrawing(e) {
         drawing = true;
