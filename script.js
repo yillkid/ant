@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let deltaX = e.offsetX - startX;
         let deltaY = e.offsetY - startY;
         let pixelLength = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        console.log(`Line length: ${pixelLength} pixels`);
+        alert(`Line length: ${pixelLength} pixels`);
     }
 
     canvas.addEventListener('mousedown', startDrawing);
