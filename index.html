@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Canvas Drawing with Uploadable Background</title>
+    <title>Canvas Drawing with RGB Tracking</title>
 </head>
 <body>
     <input type="file" id="imageLoader" name="imageLoader"/>
     <canvas id="drawingCanvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+    <div id="info">
+        <p>線段長度: <span id="totalLength"> 0 </span> pixels</p>
+        <p>線段中 RGB > 90 的長度: <span id="rgbCount"> 0 </span> pixels</p>
+    </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
